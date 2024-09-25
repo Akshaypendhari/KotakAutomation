@@ -1,5 +1,7 @@
 package GenericCode;
 
+
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -8,6 +10,7 @@ import java.net.URL;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executor;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row; 
@@ -24,14 +27,14 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-public class Annual_reports {
+public class RegulatoryDisclosur {
 
 	static WebDriver driver = null;
 	
 	static JavascriptExecutor js;
 
 	// XPATH
-	static String URL = "https://www.kotak.com/en/investor-relations/financial-results/annual-reports.html";
+	static String URL = "https://www.kotak.com/en/investor-relations/financial-results/regulatory-disclosure.html";
 	static String arrow = "//div[@class=\"owl-next\"]";
 	// static String dropdown = "//button[@class=\"btn dropdown-toggle
 	// btn-default\"]";
@@ -72,16 +75,16 @@ public class Annual_reports {
 		driver.manage().timeouts().implicitlyWait(Duration.ofMillis(3000));
 
 		js = (JavascriptExecutor) driver;
-		js.executeScript("window.scrollBy(0, 400)");
+		js.executeScript("window.scrollBy(0, 500)");
 	}
 
 	@Test(priority = 0)
 	public void yearSelection() {
 
-		for (int i = 1; i <= 3; i++) {
+		for (int i = 1; i <= 13; i++) {
 			try {
 				WebElement year = driver
-						.findElement(By.xpath("(//span[@class=\"annual-report-selected-year\"])[" + i + "]"));
+						.findElement(By.xpath("(//span[@class=\"regulatory-selected-year\"])[" + i + "]"));
 
 				if (year.isDisplayed()) {
 
@@ -112,7 +115,7 @@ public class Annual_reports {
 						pdfChecker(rowcount, nameofyear,table);
 						
 					
-						js.executeScript("window.scrollBy(0, 400)");
+						js.executeScript("window.scrollBy(400,0)");
 						
 						Thread.sleep(3000);
 
@@ -121,8 +124,11 @@ public class Annual_reports {
 					// APIstatus(nameofyear,quarterName,j);
 
 				} else {
+					
 					driver.findElement(By.xpath(arrow)).click();
-					Thread.sleep(2000);
+				//	js.executeScript("arguments[0].click();", arrow);
+
+					Thread.sleep(3000);
 					i--;
 
 				}
@@ -210,7 +216,7 @@ public class Annual_reports {
 			}
 
 			catch (Exception e) {
-				System.out.println(nameofyear +" " + counter++ + " : " + "PDF not found ");
+				System.out.println(nameofyear +" " + counter++ + " : " + "PDF not Authored ");
 				/*
 				 * authoring.add("Row " + k + " Dont have any PDF"); month.add(monthName);
 				 * year.add(nameofyear);
@@ -353,7 +359,7 @@ public class Annual_reports {
 		// Creating headers
 	
 
-		File f = new File("D:\\backup\\Projects\\Intranet\\src\\test\\java\\resultinExcel\\Annualreport.xls");
+		File f = new File("D:\\backup\\Projects\\Intranet\\src\\test\\java\\resultinExcel\\Regulatory-Disclosur.xls");
 
 		FileOutputStream fos = new FileOutputStream(f);
 		workbook.write(fos);
@@ -368,3 +374,6 @@ public class Annual_reports {
 	}
 
 }
+
+
+
